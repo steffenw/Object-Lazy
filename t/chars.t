@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 
-use Cwd qw(getcwd);
 use File::Find;
 use Test::More;
+use Cwd qw(getcwd);
 
 $ENV{TEST_AUTHOR}
     or plan skip_all => 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
@@ -27,16 +27,12 @@ find(
         untaint         => 1,
         wanted          => sub {
             -d and return;
+            $File::Find::name =~ m{/ \.svn /}xms
+                and return;
             $File::Find::name =~ m{
-                / \.svn /
-                | / \.git /
-                | / \.gitignore \z
-                | \.mo \z
-            }xms and return;
-            $File::Find::name !~ m{
                 (
                     (?: /lib/ | /example/ | /t/ )
-                    | /Build\.pl \z
+                    | /Build\.PL \z
                     | /Changes \z
                     | /README \z
                     | /MANIFEST\.SKIP \z
@@ -53,12 +49,12 @@ plan ( tests => 5 * scalar @list );
 for my $file_name (sort @list) {
     my @lines;
     {
-        open my $file, '<: raw', $file_name
+        open my $file, '< :raw', $file_name
             or die "Cannnot open file $file_name";
         local $/ = ();
         my $text = <$file>;
         # repair last line without \n
-        $text =~ s{[^\x0D\x0A] \z}{\x0D\x0A}xms;
+        $text =~ s{([^\x0D\x0A]) \z}{$1\x0D\x0A}xms;
         @lines = split m{\x0A}, $text;
     }
 
@@ -102,7 +98,7 @@ for my $file_name (sort @list) {
     $find_line_numbers->(
         "$file_name has no nonASCII chars",
         'nonASCII chars',
-        qr{[\x80-\xFF]}xms,
+        qr{[\x80-\xA6\xA8-\xFF]}xms, # A7 is §
     );
     $find_line_numbers->(
         "$file_name has no trailing space",

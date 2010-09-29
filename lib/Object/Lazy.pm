@@ -3,7 +3,7 @@ package Object::Lazy;
 use strict;
 use warnings;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use Carp qw(confess);
 use English qw(-no_match_vars $EVAL_ERROR);
@@ -14,7 +14,7 @@ sub new { ## no critic (ArgUnpacking)
 
     $params = Object::Lazy::Validate::init($params);
     my $self = bless $params, $class;
-    if (exists $params->{ref}) {
+    if ( exists $params->{ref} ) {
         Object::Lazy::Ref::register($self);
     }
 
@@ -22,18 +22,19 @@ sub new { ## no critic (ArgUnpacking)
 }
 
 my $build_object = sub {
-    my $self = shift;
+    my ($self, $self_ref) = @_;
 
     my $built_object = $self->{build}->();
     # don't build a second time
-    $self->{build} = sub {return $built_object};
-    if (! $self->{is_built} && exists $self->{logger}) {
+    $self->{build} = sub { return $built_object };
+    if ( ! $self->{is_built} && exists $self->{logger} ) {
         () = eval {
             confess('object built');
         };
         $self->{logger}->($EVAL_ERROR);
     }
     $self->{is_built} = 1;
+    ${$self_ref}      = $built_object;
 
     return $built_object;
 };
@@ -43,22 +44,22 @@ sub DESTROY {} # is not AUTOLOAD
 sub AUTOLOAD { ## no critic (Autoloading ArgUnpacking)
     my ($self, @params) =  @_;
 
-    $_[0] = my $built_object
-          = $build_object->($self);
+    my $built_object = $build_object->($self, \$_[0]);
     my $method = substr our $AUTOLOAD, 2 + length __PACKAGE__;
 
     return $built_object->$method(@params);
 }
 
-sub isa {
+sub isa { ## no critic (ArgUnpacking)
     my ($self, $class2check) = @_;
 
-    my @isa = (ref $self->{isa} eq 'ARRAY')
-              ? @{ $self->{isa} }
-              : ($self->{isa});
-    if ($self->{is_built} || ! @isa) {
-        my $built_object = $build_object->($self);
-        return $built_object->SUPER::isa($class2check);
+    my @isa
+        = (ref $self->{isa} eq 'ARRAY')
+        ? @{ $self->{isa} }
+        : ( $self->{isa} );
+    if ( $self->{is_built} || ! @isa ) {
+        my $built_object = $build_object->($self, \$_[0]);
+        return $built_object->isa($class2check);
     }
     CLASS: for my $class (@isa) {
         $class->isa($class2check) and return 1;
@@ -68,12 +69,12 @@ sub isa {
     return exists $isa{$class2check};
 }
 
-sub can {
+sub can { ## no critic (ArgUnpacking)
     my ($self, $method) = @_;
 
-    my $built_object = $build_object->($self);
+    my $built_object = $build_object->($self, \$_[0]);
 
-    return $built_object->SUPER::can($method);
+    return $built_object->can($method);
 }
 
 # $Id$
@@ -90,7 +91,7 @@ Object::Lazy - create objects late from non-owned classes
 
 =head1 VERSION
 
-0.06
+0.07
 
 =head1 SYNOPSIS
 
@@ -263,7 +264,7 @@ Carp
 
 English
 
-L<Object::Lazy::Validate>
+L<Object::Lazy::Validate|Object::Lazy::Validate>
 
 =head1 INCOMPATIBILITIES
 
@@ -275,19 +276,19 @@ not known
 
 =head1 SEE ALSO
 
-L<Data::Lazy> The scalar will be built at C<my $scalar = shift;> at first sub call.
+L<Data::Lazy|Data::Lazy> The scalar will be built at C<my $scalar = shift;> at first sub call.
 
-L<Scalar::Defer> The scalar will be built at C<my $scalar = shift;> at first sub call.
+L<Scalar::Defer|Scalar::Defer> The scalar will be built at C<my $scalar = shift;> at first sub call.
 
-L<Class::LazyObject> No, I don't write my own class/package.
+L<Class::LazyObject|Class::LazyObject> No, I don't write my own class/package.
 
-L<Object::Realize::Later> No, I don't write my own class/package.
+L<Object::Realize::Later|Object::Realize::Later> No, I don't write my own class/package.
 
-L<Class::Cache> There are lazy parameters too.
+L<Class::Cache|Class::Cache> There are lazy parameters too.
 
-L<Object::Trampoline> This is nearly the same idea.
+L<Object::Trampoline|Object::Trampoline> This is nearly the same idea.
 
-L<Objects::Collection::Object> Object created at call of method isa.
+L<Objects::Collection::Object|Objects::Collection::Object> Object created at call of method isa.
 
 =head1 AUTHOR
 
@@ -295,7 +296,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2009,
+Copyright (c) 2007 - 2010,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

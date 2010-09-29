@@ -1,6 +1,6 @@
 #!perl -T
 
-use 5.006001;
+use 5.006;
 use strict;
 use warnings;
 
@@ -12,7 +12,6 @@ BEGIN {
     use_ok('Object::Lazy::Ref');
 }
 
-# ref
 my $object = Object::Lazy->new({
     build => \&NotExists,
     ref   => 'MyClass',

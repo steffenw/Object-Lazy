@@ -96,7 +96,7 @@ nothing
 
 =head1 DEPENDENCIES
 
-L<Params::Validate>
+L<Params::Validate|Params::Validate>
 
 =head1 INCOMPATIBILITIES
 
