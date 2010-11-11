@@ -9,6 +9,8 @@ use Test::NoWarnings;
 
 BEGIN { use_ok('Object::Lazy') }
 
+$TestSample::VERSION = '123';
+
 my $object = Object::Lazy->new(\&TestSample::create_object);
 is(
     $object->VERSION(),
@@ -24,8 +26,6 @@ is(
 #-----------------------------------------------------------------------------
 
 package TestSample;
-
-our VERSION = '123';
 
 sub new {
     return bless {}, shift;

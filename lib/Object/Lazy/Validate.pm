@@ -3,7 +3,7 @@ package Object::Lazy::Validate;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.08';
 
 use Params::Validate qw(:all);
 
@@ -31,10 +31,13 @@ sub init {
     return validate_with(
         params => $params,
         spec   => {
-            build  => {type => CODEREF},
-            isa    => {type => SCALAR | ARRAYREF, default => []},
-            logger => {type => CODEREF, optional => 1},
-            ref    => {
+            build        => {type => CODEREF},
+            isa          => {type => SCALAR | ARRAYREF, default => []},
+            DOES         => {type => SCALAR | ARRAYREF, default => []},
+            VERSION      => {type => SCALAR, optional => 1},
+            version_from => {type => SCALAR, optional => 1},
+            logger       => {type => CODEREF, optional => 1},
+            ref          => {
                 type      => SCALAR,
                 optional  => 1,
                 callbacks => {
@@ -62,7 +65,7 @@ Object::Lazy::Validate - validator and initializer for Object::Lazy
 
 =head1 VERSION
 
-0.01
+0.08
 
 =head1 SYNOPSIS
 
@@ -112,7 +115,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2008,
+Copyright (c) 2007 - 2010,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

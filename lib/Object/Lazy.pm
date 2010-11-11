@@ -3,7 +3,7 @@ package Object::Lazy;
 use strict;
 use warnings;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use Carp qw(confess);
 use English qw(-no_match_vars $EVAL_ERROR);
@@ -69,12 +69,55 @@ sub isa { ## no critic (ArgUnpacking)
     return exists $isa{$class2check};
 }
 
+sub DOES { ## no critic (ArgUnpacking)
+    my ($self, $class2check) = @_;
+
+    my @does
+        = (ref $self->{DOES} eq 'ARRAY')
+        ? @{ $self->{DOES} }
+        : ( $self->{DOES} );
+    my @isa_and_does = (
+        (
+            (ref $self->{isa} eq 'ARRAY')
+            ? @{ $self->{isa} }
+            : ( $self->{isa} )
+        ),
+        @does,
+    );
+    if ( $self->{is_built} || ! @isa_and_does ) {
+        my $built_object = $build_object->($self, \$_[0]);
+        return $built_object->DOES($class2check);
+    }
+    CLASS: for my $class (@does) {
+        $class->DOES($class2check) and return 1;
+    }
+    my %isa_and_does = map { ($_ => undef) } @isa_and_does;
+
+    return exists $isa_and_does{$class2check};
+}
+
 sub can { ## no critic (ArgUnpacking)
     my ($self, $method) = @_;
 
     my $built_object = $build_object->($self, \$_[0]);
 
     return $built_object->can($method);
+}
+
+sub VERSION { ## no critic (ArgUnpacking)
+    my ($self, @version) = @_;
+
+    if ( ! $self->{is_built} ) {
+        if ( defined $self->{VERSION} ) {
+            $Object::Lazy::Version::VERSION = $self->{VERSION};
+            return +( bless {}, 'Object::Lazy::Version' )->VERSION(@version);
+        }
+        if ( $self->{version_from} ) {
+            return +( bless {}, $self->{version_from} )->VERSION(@version);
+        }
+    }
+    my $built_object = $build_object->($self, \$_[0]);
+    return $built_object->VERSION(@version);
 }
 
 # $Id$
@@ -91,7 +134,7 @@ Object::Lazy - create objects late from non-owned classes
 
 =head1 VERSION
 
-0.07
+0.08
 
 =head1 SYNOPSIS
 
@@ -122,18 +165,25 @@ Object::Lazy - create objects late from non-owned classes
 
 To combine this and a lazy use, write somthing like that:
 
+    use English qw(-no_match_vars);
     use Object::Lazy;
 
     my $foo = Object::Lazy->new(
         sub{
             my $code = 'use Foo 123';
             eval $code;
-            $@ and die "$code $@";
+            $EVAL_ERROR
+                and die "$code $EVAL_ERROR";
             return Foo->new();
         },
     );
 
     # and so on
+
+After a build object the scalar which hold the object will be updated too.
+
+  $object->method();
+  ^^^^^^^-------------- will update this scalar after a build
 
 Read topic SUBROUTINES/METHODS to find the entended constructor
 and all the optional parameters.
@@ -154,7 +204,8 @@ which knows how to build the real object.
 Later, if a method of the object is called,
 the real object will be built.
 
-Method isa and method can is implemented.
+Automatic inherited methods from UNIVERSAL.pm are implemented.
+This is 'isa', 'DOES', 'can' and 'VERSION'.
 
 =head1 SUBROUTINES/METHODS
 
@@ -198,6 +249,41 @@ or
     $object = Object::Lazy->new({
         ...
         isa => [qw(RealClass BaseClassOfRealClass)],
+    });
+
+=item * optional parameter DOES
+
+It is similar to parameter isa.
+But do not note the inheritance, note the Rules here.
+
+    $object = Object::Lazy->new({
+        ...
+        DOES => 'Role1',
+    });
+
+or
+
+    $object = Object::Lazy->new({
+        ...
+        DOES => [qw(Role1 Role2)],
+    });
+
+=item * optional parameter VERSION
+
+For the VERSION method tell Object::Lazy which version shold be checked.
+
+    $object = Object::Lazy->new({
+        ...
+        VERSION => '123',
+    });
+
+=item * optional parameter version_from
+
+For the VERSION method tell Object::Lazy which class shold be version checked.
+
+    $object = Object::Lazy->new({
+        ...
+        version_from => 'RealClass',
     });
 
 =item * optional parameter logger
@@ -244,11 +330,47 @@ or
 
     $boolean = $obejct->isa('BaseClassOfRealClass');
 
+=head2 method DOES
+
+If no isa or DOES parameter was given at method new, the object will build.
+
+Otherwise the method DOES checks by DOES class method
+or only the given parameters isa and DOES.
+
+    $boolean = $obejct->DOES('Role');
+
 =head2 method can
 
 The object will build. After that the can method checks the built object.
 
     $coderef_or_undef = $object->can('method');
+
+=head2 method VERSION
+
+If no VERSION or version_from parameter was given at method new,
+the object will build.
+
+=head3 VERSION parameter set
+
+The given version will be returnd or checked.
+
+    $version = $object->VERSION();
+
+or
+
+    $object->VERSION($required_version);
+
+=head3 version_from parameter set
+
+The version of the class in version_from will be returnd or checked.
+This class should be used or required before.
+Is that not possible use parameter VERSION instead.
+
+    $version = $object->VERSION();
+
+or
+
+    $object->VERSION($required_version);
 
 =head1 DIAGNOSTICS
 
@@ -275,6 +397,8 @@ not known
 not known
 
 =head1 SEE ALSO
+
+UNIVERSAL
 
 L<Data::Lazy|Data::Lazy> The scalar will be built at C<my $scalar = shift;> at first sub call.
 

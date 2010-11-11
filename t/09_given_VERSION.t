@@ -4,26 +4,50 @@ use 5.006;
 use strict;
 use warnings;
 
-use Test::More tests => 3 + 1;
+use Test::More tests => 5 + 1;
 use Test::NoWarnings;
 
 BEGIN { use_ok('Object::Lazy') }
 
-my $object = Object::Lazy->new({
-    build   => \&TestSample::create_object,
-    VERSION => '123',
-});
-is(
-    $object->VERSION(),
-    '123'
-    'VERSION',
-);
+{
+    $TestSample::VERSION = '123';
 
-is(
-    ref $object,
-    'Object::Lazy',
-    'ref object is TestSample',
-);
+    my $object = Object::Lazy->new({
+    build   => \&TestSample::create_object,
+        VERSION => '123',
+    });
+    is(
+        $object->VERSION(),
+        '123',
+        'VERSION',
+    );
+
+    is(
+        ref $object,
+        'Object::Lazy',
+        'ref object is Obejct::Lazy',
+    );
+}
+
+{
+    $TestSample::VERSION = '456';
+
+    my $object = Object::Lazy->new({
+        build        => \&TestSample::create_object,
+        version_from => 'TestSample',
+    });
+    is(
+        $object->VERSION(),
+        '456',
+        'version_from',
+    );
+
+    is(
+        ref $object,
+        'Object::Lazy',
+        'ref object is Obejct::Lazy too',
+    );
+}
 
 #-----------------------------------------------------------------------------
 
