@@ -15,165 +15,117 @@ plan(tests => 6);
 
 my @data = (
     {
-        test   => '12_build_header',
+        test   => '01_short_constructor',
         path   => 'example',
-        script => '-I../lib -T 12_build_header.pl',
+        script => '-I../lib -T 01_short_constructor.pl',
         result => <<'EOT',
-all header keys:
-Content-Transfer-Encoding
-Content-Type
-Language-Team-Mail
-Language-Team-Name
-Last-Translator-Mail
-Last-Translator-Name
-MIME-Version
-PO-Revision-Date
-POT-Creation-Date
-Plural-Forms
-Project-Id-Version
-Report-Msgid-Bugs-To-Mail
-Report-Msgid-Bugs-To-Name
-charset
-extended
-
-empty header msgstr:
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-all header keys:
-Project-Id-Version: Testproject
-Report-Msgid-Bugs-To: Bug Reporter <bug@example.org>
-POT-Creation-Date: no POT creation date
-PO-Revision-Date: no PO revision date
-Last-Translator: Steffen Winkler <steffenw@example.org>
-Language-Team: MyTeam <cpan@example.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-Poedit-Language: German
-X-Poedit-Country: GERMANY
-X-Poedit-SourceCharset: utf-8
+condition = 0
+object = Object::Lazy=HASH(...)
+$my_dump = 'data';
+condition = 1
+object = Data::Dumper=HASH(...)
 EOT
     },
     {
-        test   => '13_get_header',
+        test   => '02_extended_constructor',
         path   => 'example',
-        script => '-I../lib -T 13_get_header.pl',
+        script => '-I../lib -T 02_extended_constructor.pl',
         result => <<'EOT',
-get 1 item of header msgstr as scalar:
-Testproject
-get 0 or many items of header msgstr as array reference:
-$array_ref = [
-  'Testproject',
-  'bug@example.org',
-  [
-    'X-Poedit-Language',
-    'German',
-    'X-Poedit-Country',
-    'GERMANY',
-    'X-Poedit-SourceCharset',
-    'utf-8'
-  ]
-];
+condition = 0
+object = Object::Lazy=HASH(...)
+Data::Dumper object built at ../lib/Object/Lazy.pm line 32
+\teval {...} called at ../lib/Object/Lazy.pm line 31
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 29
+\tmain::do_something_with('Object::Lazy=HASH(...)', 1) called at 02_extended_constructor.pl line 45
+$my_dump = 'data';
+condition = 1
+object = Data::Dumper=HASH(...)
 EOT
     },
     {
-        test   => '21_maketext_to_gettext',
+        test   => '03_isa',
         path   => 'example',
-        script => '-I../lib -T 21_maketext_to_gettext.pl',
+        script => '-I../lib -T 03_isa.pl',
         result => <<'EOT',
-Single mode (get 1 item as scalar):
-foo %1 bar %quant(%2,singluar,plural,zero) bazMultiple mode (get 0 or many items as array):
-foo %1 bar
-bar %*(%2,singluar,plural) baz
+1 = $object->isa('RealClass');
+1 = $object->isa('BaseClassOfRealClass');
+RealClass object built at ../lib/Object/Lazy.pm line 32
+\teval {...} called at ../lib/Object/Lazy.pm line 31
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 03_isa.pl line 38
+# Method output called!
 EOT
     },
     {
-        test   => '31_expand_maketext',
+        test   => '04_DOES',
         path   => 'example',
-        script => '-I../lib -T 31_expand_maketext.pl',
+        script => '-I../lib -T 04_DOES.pl',
         result => <<'EOT',
-foo and bar [quant,_2,singular,plural,zero] baz
-foo and bar zero baz
-foo and bar 1 singular baz
-foo and bar 2 plural baz
-foo and bar 3.234.567,890 plural baz
-foo and bar 4.234.567,89 plural baz
-foo and bar [*,_2,singular,plural,zero] baz
-foo and bar zero baz
-foo and bar 1 singular baz
-foo and bar 2 plural baz
-foo and bar 3234567.890 plural baz
-foo and bar 4234567.89 plural baz
-foo and bar %quant(%2,singular,plural,zero) baz
-foo and bar zero baz
-foo and bar 1 singular baz
-foo and bar 2 plural baz
-foo and bar 3234567.890 plural baz
-foo and bar 4234567.89 plural baz
-foo and bar %*(%2,singular,plural,zero) baz
-foo and bar zero baz
-foo and bar 1 singular baz
-foo and bar 2 plural baz
-foo and bar 3.234.567,890 plural baz
-foo and bar 4.234.567,89 plural baz
+1 = $object->DOES('RealClass');
+1 = $object->DOES('Role');
+RealClass object built at ../lib/Object/Lazy.pm line 32
+\teval {...} called at ../lib/Object/Lazy.pm line 31
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 37
+# Method output called!
 EOT
     },
     {
-        test   => '32_expand_gettext',
+        test   => '05_VERSION',
         path   => 'example',
-        script => '-I../lib -T 32_expand_gettext.pl',
+        script => '-I../lib -T 05_VERSION.pl',
         result => <<'EOT',
-foo + bar + baz = {num} items
-foo + bar + baz = 0 items
-foo + bar + baz = 1 items
-foo + bar + baz = 2 items
-foo + bar + baz = 3234567.890 items
-foo + bar + baz = 4234567.89 items
+Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 116.
+11.12.13 = $object_2->VERSION( qv(11.12.13') )
+Real object 1 object built at ../lib/Object/Lazy.pm line 32
+\teval {...} called at ../lib/Object/Lazy.pm line 31
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 50
+Real object 2 object built at ../lib/Object/Lazy.pm line 32
+\teval {...} called at ../lib/Object/Lazy.pm line 31
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 51
 EOT
     },
     {
-        test   => '41_calculate_plural_forms',
+        test   => '06_ref',
         path   => 'example',
-        script => '-I../lib -T 41_calculate_plural_forms.pl',
+        script => '-I../lib -T 06_ref.pl',
         result => <<'EOT',
-English:
-plural_froms = 'nplurals=2; plural=(n != 1)'
-nplurals = 2
-
-The EN plural from from 0 is 1
-The EN plural from from 1 is 0
-The EN plural from from 2 is 1
-Russian:
-plural_froms = 'nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 or n%100>=20) ? 1 : 2)'
-nplurals = 3
-
-The RU plural from from 0 is 2
-The RU plural from from 1 is 0
-The RU plural from from 2 is 1
-The RU plural from from 5 is 2
-The RU plural from from 100 is 2
-The RU plural from from 101 is 0
-The RU plural from from 102 is 1
-The RU plural from from 105 is 2
-The RU plural from from 110 is 2
-The RU plural from from 111 is 2
-The RU plural from from 112 is 2
-The RU plural from from 115 is 2
-The RU plural from from 120 is 2
-The RU plural from from 121 is 0
-The RU plural from from 122 is 1
-The RU plural from from 125 is 2
+RealClass = ref $object;
+RealClass object built at ../lib/Object/Lazy.pm line 32
+\teval {...} called at ../lib/Object/Lazy.pm line 31
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 102
+\tObject::Lazy::can('Object::Lazy=HASH(...)', 'new') called at 06_ref.pl line 27
+CODE(...) = $object->can('new')
 EOT
-    },
+    }
 );
 
 for my $data (@data) {
+    # run example
     my $dir = getcwd();
     chdir("$dir/$data->{path}");
     my $result = qx{perl $data->{script} 2>&3};
     chdir($dir);
+
+    # normalize reference addresses
+    $result =~ s{
+        ( SCALAR | ARRAY | HASH | CODE | REF )
+        \( 0x [0-9a-f]+ \)
+    }
+    {$1(...)}xmsg;
+
+    # normalize version number
+    $result =~ s{
+        ( \Qthis is only version\E ) \s+ \S+
+    }
+    {$1 ...}xms;
+
+    # interpolate tab only
+    $data->{result} =~ s{\\t}{\t}xmsg;
+
     eq_or_diff(
         $result,
         $data->{result},

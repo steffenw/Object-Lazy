@@ -5,65 +5,64 @@ use warnings;
 
 our $VERSION = 0;
 
+use version;
+use English qw(-no_match_vars $EVAL_ERROR);
+use Data::Dumper;
 use Object::Lazy;
 
-my $object = Object::Lazy->new({
-    # how to create the real object
-    build  => sub {
-        return RealClass->new();
+my $object_1 = Object::Lazy->new({
+    # A lazy Data::Dumper object as example.
+    build       => sub {
+        return Data::Dumper->new(['data'], ['my_dump_1']);
     },
-    # do not build at method isa
-    # isa => 'RealClass',
-    # or
-    isa    => [qw(RealClass BaseClassOfRealClass)],
+    # take the version from class Data::Dumper;
+    version_from => 'Data::Dumper',
     # tell me when
-    logger => sub {
+    logger       => sub {
         my $at_stack = shift;
-        () = print "RealClass $at_stack";
+        () = print "Real object 1 $at_stack";
     },
 });
 
-{
-    my $ok = $object->isa('RealClass');
-    () = print "$ok = \$object->isa('RealClass');\n";
-}
+my $object_2 = Object::Lazy->new({
+    # A lazy Data::Dumper object as example.
+    build  => sub {
+        return Data::Dumper->new(['data'], ['my_dump_2']);
+    },
+    # take the version from scalar;
+    VERSION => qv('11.12.13'),
+    # tell me when
+    logger  => sub {
+        my $at_stack = shift;
+        () = print "Real object 2 $at_stack";
+    },
+});
 
-# ask about inheritage
+
 {
-    my $ok = $object->isa('BaseClassOfRealClass');
-    () = print "$ok = \$object->isa('BaseClassOfRealClass');\n";
+    () = eval { $object_1->VERSION('9999') };
+    () = print $EVAL_ERROR;
+    my $version = $object_2->VERSION();
+    () = print "$version = \$object_2->VERSION( qv(11.12.13') )\n"
 }
 
 # build the real object and call method output
-$object->output();
+$object_1->Dump();
+$object_2->Dump();
 
 # $Id$
-
-package RealClass;
-
-use parent qw(-norequire BaseClassOfRealClass);
-
-
-package BaseClassOfRealClass; ## no critic (MultiplePackages)
-
-sub new {
-    return bless {}, shift;
-}
-
-sub output {
-    () = print "# Method output called!\n";
-
-    return;
-}
 
 __END__
 
 output:
 
-1 = $object->isa('RealClass');
-1 = $object->isa('BaseClassOfRealClass');
-RealClass object built at ../lib/Object/Lazy.pm line 32
+Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 116.
+11.12.13 = $object_2->VERSION( qv(11.12.13') )
+Real object 1 object built at ../lib/Object/Lazy.pm line 32
     eval {...} called at ../lib/Object/Lazy.pm line 31
     Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
-    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 38
-# Method output called!
+    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 50
+Real object 2 object built at ../lib/Object/Lazy.pm line 32
+    eval {...} called at ../lib/Object/Lazy.pm line 31
+    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 51

@@ -65,5 +65,5 @@ output:
 RealClass object built at ../lib/Object/Lazy.pm line 32
     eval {...} called at ../lib/Object/Lazy.pm line 31
     Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
-    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 38
+    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 03_isa.pl line 38
 # Method output called!

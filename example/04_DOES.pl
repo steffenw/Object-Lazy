@@ -12,10 +12,11 @@ my $object = Object::Lazy->new({
     build  => sub {
         return RealClass->new();
     },
-    # do not build at method isa
-    # isa => 'RealClass',
-    # or
-    isa    => [qw(RealClass BaseClassOfRealClass)],
+    # do not build at method DOES
+    # inheritance
+    isa    => 'RealClass', # array reference allowed too
+    # roles
+    DOES   => 'Role',      # array reference allowed too
     # tell me when
     logger => sub {
         my $at_stack = shift;
@@ -24,14 +25,12 @@ my $object = Object::Lazy->new({
 });
 
 {
-    my $ok = $object->isa('RealClass');
-    () = print "$ok = \$object->isa('RealClass');\n";
+    my $ok = $object->DOES('RealClass');
+    () = print "$ok = \$object->DOES('RealClass');\n";
 }
-
-# ask about inheritage
 {
-    my $ok = $object->isa('BaseClassOfRealClass');
-    () = print "$ok = \$object->isa('BaseClassOfRealClass');\n";
+    my $ok = $object->DOES('RealClass');
+    () = print "$ok = \$object->DOES('Role');\n";
 }
 
 # build the real object and call method output
@@ -40,11 +39,6 @@ $object->output();
 # $Id$
 
 package RealClass;
-
-use parent qw(-norequire BaseClassOfRealClass);
-
-
-package BaseClassOfRealClass; ## no critic (MultiplePackages)
 
 sub new {
     return bless {}, shift;
@@ -60,10 +54,10 @@ __END__
 
 output:
 
-1 = $object->isa('RealClass');
-1 = $object->isa('BaseClassOfRealClass');
+1 = $object->DOES('RealClass');
+1 = $object->DOES('Role');
 RealClass object built at ../lib/Object/Lazy.pm line 32
     eval {...} called at ../lib/Object/Lazy.pm line 31
     Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
-    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 38
+    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 37
 # Method output called!

@@ -165,11 +165,11 @@ Object::Lazy - create objects late from non-owned classes
 
 To combine this and a lazy use, write somthing like that:
 
-    use English qw(-no_match_vars);
+    use English qw(-no_match_vars $EVAL_ERROR);
     use Object::Lazy;
 
     my $foo = Object::Lazy->new(
-        sub{
+        sub {
             my $code = 'use Foo 123';
             eval $code;
             $EVAL_ERROR
@@ -195,7 +195,7 @@ Run this *.pl files.
 
 =head1 DESCRIPTION
 
-This module implements 'lazy evaluation'
+This module implements lazy evaluation
 and can create lazy objects from every class.
 
 Creates a dummy object including a subroutine
@@ -204,8 +204,8 @@ which knows how to build the real object.
 Later, if a method of the object is called,
 the real object will be built.
 
-Automatic inherited methods from UNIVERSAL.pm are implemented.
-This is 'isa', 'DOES', 'can' and 'VERSION'.
+Inherited methods from UNIVERSAL.pm are implemented and so overwritten.
+This are isa, DOES, can and VERSION.
 
 =head1 SUBROUTINES/METHODS
 
@@ -213,9 +213,11 @@ This is 'isa', 'DOES', 'can' and 'VERSION'.
 
 =head3 short constructor
 
-    $object = Object::Lazy->new(sub{
-        return RealClass->new(...);
-    });
+    $object = Object::Lazy->new(
+        sub {
+            return RealClass->new(...);
+        },
+    );
 
 =head3 extended constructor
 
@@ -254,7 +256,8 @@ or
 =item * optional parameter DOES
 
 It is similar to parameter isa.
-But do not note the inheritance, note the Rules here.
+But do not note the inheritance.
+Note the Rules here.
 
     $object = Object::Lazy->new({
         ...
@@ -275,6 +278,15 @@ For the VERSION method tell Object::Lazy which version shold be checked.
     $object = Object::Lazy->new({
         ...
         VERSION => '123',
+    });
+
+or
+
+    use version;
+
+    $object = Object::Lazy->new({
+        ...
+        VERSION => qv('1.2.3'), # version object
     });
 
 =item * optional parameter version_from

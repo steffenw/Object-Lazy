@@ -34,7 +34,7 @@ sub init {
             build        => {type => CODEREF},
             isa          => {type => SCALAR | ARRAYREF, default => []},
             DOES         => {type => SCALAR | ARRAYREF, default => []},
-            VERSION      => {type => SCALAR, optional => 1},
+            VERSION      => {type => SCALAR | OBJECT, optional => 1},
             version_from => {type => SCALAR, optional => 1},
             logger       => {type => CODEREF, optional => 1},
             ref          => {

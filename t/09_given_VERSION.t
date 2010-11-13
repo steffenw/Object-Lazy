@@ -6,6 +6,7 @@ use warnings;
 
 use Test::More tests => 5 + 1;
 use Test::NoWarnings;
+use version;
 
 BEGIN { use_ok('Object::Lazy') }
 
@@ -14,11 +15,11 @@ BEGIN { use_ok('Object::Lazy') }
 
     my $object = Object::Lazy->new({
     build   => \&TestSample::create_object,
-        VERSION => '123',
+        VERSION => qv('1.2.3'),
     });
     is(
         $object->VERSION(),
-        '123',
+        qv('1.2.3'),
         'VERSION',
     );
 
@@ -30,7 +31,7 @@ BEGIN { use_ok('Object::Lazy') }
 }
 
 {
-    $TestSample::VERSION = '456';
+    $TestSample::VERSION = '123';
 
     my $object = Object::Lazy->new({
         build        => \&TestSample::create_object,
@@ -38,7 +39,7 @@ BEGIN { use_ok('Object::Lazy') }
     });
     is(
         $object->VERSION(),
-        '456',
+        '123',
         'version_from',
     );
 
