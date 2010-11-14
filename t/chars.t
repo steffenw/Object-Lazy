@@ -8,7 +8,7 @@ use Test::More;
 use Cwd qw(getcwd);
 
 $ENV{TEST_AUTHOR}
-    or plan skip_all => 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
+    or plan( skip_all => 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.' );
 
 my $UNTAINT_FILENAME_PATTERN = qr{\A (
     (?:

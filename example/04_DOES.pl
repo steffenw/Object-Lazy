@@ -3,6 +3,8 @@
 use strict;
 use warnings;
 
+use 5.010;
+
 our $VERSION = 0;
 
 use Object::Lazy;
@@ -59,5 +61,5 @@ output:
 RealClass object built at ../lib/Object/Lazy.pm line 32
     eval {...} called at ../lib/Object/Lazy.pm line 31
     Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
-    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 37
+    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 39
 # Method output called!

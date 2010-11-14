@@ -56,7 +56,7 @@ __END__
 
 output:
 
-Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 116.
+Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 119.
 11.12.13 = $object_2->VERSION( qv(11.12.13') )
 Real object 1 object built at ../lib/Object/Lazy.pm line 32
     eval {...} called at ../lib/Object/Lazy.pm line 31

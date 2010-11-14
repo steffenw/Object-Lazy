@@ -4,7 +4,13 @@ use 5.006;
 use strict;
 use warnings;
 
-use Test::More tests => 3 + 1;
+use Test::More;
+
+BEGIN {
+    UNIVERSAL->can('DOES')
+        or plan( skip_all => 'UNIVERSAL 1.04 (Perl 5.10) required for method DOES' );
+    plan( tests => 3 + 1 );
+}
 use Test::NoWarnings;
 
 BEGIN { use_ok('Object::Lazy') }

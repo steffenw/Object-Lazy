@@ -45,6 +45,6 @@ output:
 RealClass = ref $object;
 RealClass object built at ../lib/Object/Lazy.pm line 32
     eval {...} called at ../lib/Object/Lazy.pm line 31
-    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 102
+    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 105
     Object::Lazy::can('Object::Lazy=HASH(...)', 'new') called at 06_ref.pl line 27
 CODE(...) = $object->can('new')

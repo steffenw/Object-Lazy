@@ -72,6 +72,9 @@ sub isa { ## no critic (ArgUnpacking)
 sub DOES { ## no critic (ArgUnpacking)
     my ($self, $class2check) = @_;
 
+    UNIVERSAL->can('DOES')
+        or confess 'UNIVERSAL 1.04 (Perl 5.10) required for method DOES';
+
     my @does
         = (ref $self->{DOES} eq 'ARRAY')
         ? @{ $self->{DOES} }
@@ -388,6 +391,8 @@ or
 
 The constructor can confess at false parameters.
 
+UNIVERSAL 1.04 (Perl 5.10) required for method DOES.
+
 =head1 CONFIGURATION AND ENVIRONMENT
 
 nothing
@@ -406,7 +411,8 @@ not known
 
 =head1 BUGS AND LIMITATIONS
 
-not known
+UNIVERSAL.pm 1.04 implements DOES first time.
+This version is part of the Perl 5.10 distribution.
 
 =head1 SEE ALSO
 

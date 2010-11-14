@@ -7,11 +7,9 @@ use Test::More;
 use Test::Differences;
 use Cwd qw(getcwd chdir);
 
-$ENV{TEST_EXAMPLE} or plan(
-    skip_all => 'Set $ENV{TEST_EXAMPLE} to run this test.'
-);
-
-plan(tests => 6);
+$ENV{TEST_EXAMPLE}
+    or plan( skip_all => 'Set $ENV{TEST_EXAMPLE} to run this test.' );
+plan( tests => 6 );
 
 my @data = (
     {
@@ -67,7 +65,7 @@ EOT
 RealClass object built at ../lib/Object/Lazy.pm line 32
 \teval {...} called at ../lib/Object/Lazy.pm line 31
 \tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
-\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 37
+\tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 39
 # Method output called!
 EOT
     },
@@ -76,7 +74,7 @@ EOT
         path   => 'example',
         script => '-I../lib -T 05_VERSION.pl',
         result => <<'EOT',
-Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 116.
+Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 119.
 11.12.13 = $object_2->VERSION( qv(11.12.13') )
 Real object 1 object built at ../lib/Object/Lazy.pm line 32
 \teval {...} called at ../lib/Object/Lazy.pm line 31
@@ -96,7 +94,7 @@ EOT
 RealClass = ref $object;
 RealClass object built at ../lib/Object/Lazy.pm line 32
 \teval {...} called at ../lib/Object/Lazy.pm line 31
-\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 102
+\tObject::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 105
 \tObject::Lazy::can('Object::Lazy=HASH(...)', 'new') called at 06_ref.pl line 27
 CODE(...) = $object->can('new')
 EOT
@@ -126,9 +124,16 @@ for my $data (@data) {
     # interpolate tab only
     $data->{result} =~ s{\\t}{\t}xmsg;
 
-    eq_or_diff(
-        $result,
-        $data->{result},
-        $data->{test},
-    );
+    SKIP: {
+        if ( UNIVERSAL->can('DOES') ) {
+            eq_or_diff(
+                $result,
+                $data->{result},
+                $data->{test},
+            );
+        }
+        else {
+            skip('UNIVERSAL 1.04 (Perl 5.10) required for method DOES', 1);
+        }
+    }
 }
