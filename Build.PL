@@ -40,6 +40,7 @@ Module::Build->new(
             'Test::Simple' => 0,
         )
         : (
+            version      => 0, # perl dist
             Cwd          => 0, # perl dist
             'Test::More' => 0, # dist Test-Simple
         )
