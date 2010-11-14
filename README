@@ -1,9 +1,9 @@
-Object::Lazy version 0.07
+Object::Lazy version 0.08
 =========================
 
 Create objects late from non-owned classes.
 
-This module implements 'lazy evaluation'
+This module implements lazy evaluation
 and can create lazy objects from every class.
 
 Creates a dummy object including a subroutine
@@ -12,7 +12,8 @@ which knows how to build the real object.
 Later, if a method of the object is called,
 the real object will be built.
 
-Method isa and method can is implemented.
+Inherited methods from UNIVERSAL.pm are implemented and so overwritten.
+This are isa, DOES, can and VERSION.
 
 INSTALLATION
 
