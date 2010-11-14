@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 
+use Cwd qw(getcwd);
 use File::Find;
 use Test::More;
-use Cwd qw(getcwd);
 
 $ENV{TEST_AUTHOR}
     or plan( skip_all => 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.' );
@@ -27,8 +27,11 @@ find(
         untaint         => 1,
         wanted          => sub {
             -d and return;
-            $File::Find::name =~ m{/ \.svn /}xms
-                and return;
+            $File::Find::name =~ m{
+                / \.svn /
+                | / \.git /
+                | / \.gitignore \z
+            }xms and return;
             $File::Find::name =~ m{
                 (
                     (?: /lib/ | /example/ | /t/ )
@@ -44,7 +47,9 @@ find(
     $PATH,
 );
 
-plan ( tests => 5 * scalar @list );
+plan( tests => 5 * scalar @list );
+
+my @ignore_non_ascii = ();
 
 for my $file_name (sort @list) {
     my @lines;
@@ -95,11 +100,19 @@ for my $file_name (sort @list) {
         'control chars',
         qr{[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]}xms,
     );
-    $find_line_numbers->(
-        "$file_name has no nonASCII chars",
-        'nonASCII chars',
-        qr{[\x80-\xA6\xA8-\xFF]}xms, # A7 is §
-    );
+    NON_ASCII: {
+        for my $regex (@ignore_non_ascii) {
+            if ( $file_name =~ $regex ) {
+                ok(1, 'dummy');
+                next NON_ASCII;
+            }
+        }
+        $find_line_numbers->(
+            "$file_name has no nonASCII chars",
+            'nonASCII chars',
+            qr{[\x80-\xA6\xA8-\xFF]}xms, # A7 is §
+        );
+    }
     $find_line_numbers->(
         "$file_name has no trailing space",
         'trailing space',
