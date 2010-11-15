@@ -1,5 +1,8 @@
 Revision history for Perl extension Object::Lazy.
 
+0.09  Mon Nov 15 22:59:46 2010
+- missing build dependency Test::Differences fixed
+
 0.08  Sun Nov 14 07:57:05 2010
 - methods DOES and VERSION implemented
 

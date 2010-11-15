@@ -33,8 +33,9 @@ Module::Build->new(
         )
     },
     build_requires => {
-        'Test::NoWarnings' => 0,
-        'Test::Exception'  => 0,
+        'Test::NoWarnings'  => 0,
+        'Test::Exception'   => 0,
+        'Test::Differences' => 0,
         $is_ppm
         ? (
             'Test::Simple' => 0,

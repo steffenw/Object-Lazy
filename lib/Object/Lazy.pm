@@ -3,11 +3,11 @@ package Object::Lazy;
 use strict;
 use warnings;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 use Carp qw(confess);
 use English qw(-no_match_vars $EVAL_ERROR);
-use Object::Lazy::Validate 0.01;
+use Object::Lazy::Validate 0.08;
 
 sub new { ## no critic (ArgUnpacking)
     my ($class, $params) = Object::Lazy::Validate::validate_new(@_);
@@ -137,7 +137,7 @@ Object::Lazy - create objects late from non-owned classes
 
 =head1 VERSION
 
-0.08
+0.09
 
 =head1 SYNOPSIS
 
