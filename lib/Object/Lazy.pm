@@ -1,9 +1,9 @@
-package Object::Lazy;
+package Object::Lazy; ## no critic (TidyCode)
 
 use strict;
 use warnings;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use Carp qw(confess);
 use English qw(-no_match_vars $EVAL_ERROR);
@@ -137,7 +137,7 @@ Object::Lazy - create objects late from non-owned classes
 
 =head1 VERSION
 
-0.09
+0.10
 
 =head1 SYNOPSIS
 
@@ -438,7 +438,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2010,
+Copyright (c) 2007 - 2012,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.
@@ -446,5 +446,3 @@ All rights reserved.
 This module is free software;
 you can redistribute it and/or modify it
 under the same terms as Perl itself.
-
-=cut

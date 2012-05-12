@@ -1,4 +1,4 @@
-Object::Lazy version 0.09
+Object::Lazy version 0.10
 =========================
 
 Create objects late from non-owned classes.
@@ -41,7 +41,7 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2007 - 2010,
+Copyright (c) 2007 - 2012,
 Steffen Winkler
 steffenw at cpan.org.
 All rights reserved.

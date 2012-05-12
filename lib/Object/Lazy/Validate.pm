@@ -1,4 +1,4 @@
-package Object::Lazy::Validate;
+package Object::Lazy::Validate; ## no critic (TidyCode)
 
 use strict;
 use warnings;
@@ -123,5 +123,3 @@ All rights reserved.
 This module is free software;
 you can redistribute it and/or modify it
 under the same terms as Perl itself.
-
-=cut

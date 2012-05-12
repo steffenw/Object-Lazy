@@ -7,9 +7,11 @@ use Test::More;
 use Test::Differences;
 use Cwd qw(getcwd chdir);
 
-$ENV{TEST_EXAMPLE}
-    or plan( skip_all => 'Set $ENV{TEST_EXAMPLE} to run this test.' );
-plan( tests => 6 );
+$ENV{AUTHOR_TESTING} or plan(
+    skip_all => 'Set $ENV{AUTHOR_TESTING} to run this test.'
+);
+
+plan(tests => 6);
 
 my @data = (
     {
