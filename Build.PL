@@ -21,6 +21,7 @@ Module::Build->new(
         version             => 0, # perl dist
         Cwd                 => 0, # perl dist
         'Test::More'        => 0, # dist Test-Simple
+        'Params::Validate'  => 0,
     },
     recommends => {
         'Test::Pod'           => '1.14',

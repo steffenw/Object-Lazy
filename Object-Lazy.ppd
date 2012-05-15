@@ -1,9 +1,9 @@
-<SOFTPKG NAME="Object-Lazy" VERSION="0.10">
+<SOFTPKG NAME="Object-Lazy" VERSION="0.11">
     <ABSTRACT>Object::Lazy - create objects late from non-owned classes</ABSTRACT>
     <AUTHOR>Steffen Winkler &lt;steffenw at cpan.org&gt;</AUTHOR>
     <IMPLEMENTATION>
         <REQUIRE NAME="English::" VERSION="0" />
         <REQUIRE NAME="Carp::" VERSION="0" />
-        <CODEBASE HREF="PPM-Object-Lazy-0.10.tar.gz" />
+        <CODEBASE HREF="PPM-Object-Lazy-0.11.tar.gz" />
     </IMPLEMENTATION>
 </SOFTPKG>
