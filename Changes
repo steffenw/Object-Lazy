@@ -1,5 +1,11 @@
 Revision history for Perl extension Object::Lazy.
 
+0.12  Sat Aug 18 20:03:37 2012
+- https://rt.cpan.org/Public/Bug/Display.html?id=77170
+  - Build.PL no longer in distribution
+  - use Try::Tiny instead of eval
+- a name for the builder code reference
+
 0.11  Tue May 15 18:48:37 2012
 - added lost dependency
 
