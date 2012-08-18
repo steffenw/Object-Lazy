@@ -57,7 +57,7 @@ sub isa { ## no critic (ArgUnpacking)
     my ($self, $class2check) = @_;
 
     my @isa
-        = (ref $self->{isa} eq 'ARRAY')
+        = ref $self->{isa} eq 'ARRAY'
         ? @{ $self->{isa} }
         : ( $self->{isa} );
     if ( $self->{is_built} || ! @isa ) {
@@ -79,12 +79,12 @@ sub DOES { ## no critic (ArgUnpacking)
         or confess 'UNIVERSAL 1.04 (Perl 5.10) required for method DOES';
 
     my @does
-        = (ref $self->{DOES} eq 'ARRAY')
+        = ref $self->{DOES} eq 'ARRAY'
         ? @{ $self->{DOES} }
         : ( $self->{DOES} );
     my @isa_and_does = (
         (
-            (ref $self->{isa} eq 'ARRAY')
+            ref $self->{isa} eq 'ARRAY'
             ? @{ $self->{isa} }
             : ( $self->{isa} )
         ),
