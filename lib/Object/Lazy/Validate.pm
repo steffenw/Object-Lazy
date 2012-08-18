@@ -3,7 +3,7 @@ package Object::Lazy::Validate; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '0.08';
+our $VERSION = '0.12';
 
 use Params::Validate qw(:all);
 
@@ -65,7 +65,7 @@ Object::Lazy::Validate - validator and initializer for Object::Lazy
 
 =head1 VERSION
 
-0.08
+0.12
 
 =head1 SYNOPSIS
 
@@ -115,7 +115,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2010,
+Copyright (c) 2007 - 2012,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

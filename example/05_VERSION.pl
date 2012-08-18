@@ -56,13 +56,17 @@ __END__
 
 output:
 
-Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 119.
+Data::Dumper version 9999 required--this is only version ... at ../lib/Object/Lazy.pm line 122.
 11.12.13 = $object_2->VERSION( qv(11.12.13') )
-Real object 1 object built at ../lib/Object/Lazy.pm line 32
-    eval {...} called at ../lib/Object/Lazy.pm line 31
-    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+Real object 1 object built at ../lib/Object/Lazy.pm line 33
+    Object::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
+    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
+    Try::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
+    Object::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
     Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 50
-Real object 2 object built at ../lib/Object/Lazy.pm line 32
-    eval {...} called at ../lib/Object/Lazy.pm line 31
-    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+Real object 2 object built at ../lib/Object/Lazy.pm line 33
+    Object::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
+    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
+    Try::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
+    Object::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
     Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 51

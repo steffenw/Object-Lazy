@@ -58,8 +58,10 @@ output:
 
 1 = $object->DOES('RealClass');
 1 = $object->DOES('Role');
-RealClass object built at ../lib/Object/Lazy.pm line 32
-    eval {...} called at ../lib/Object/Lazy.pm line 31
-    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
+RealClass object built at ../lib/Object/Lazy.pm line 33
+    Object::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
+    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
+    Try::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
+    Object::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
     Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 39
 # Method output called!

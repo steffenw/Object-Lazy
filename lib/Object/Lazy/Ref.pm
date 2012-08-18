@@ -3,7 +3,7 @@ package Object::Lazy::Ref; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.12';
 
 use Carp qw(croak);
 
@@ -46,7 +46,7 @@ Object::Lazy::Ref - Simulation of C<ref $object> for Object::Lazy
 
 =head1 VERSION
 
-0.01
+0.12
 
 =head1 SYNOPSIS
 
@@ -76,7 +76,7 @@ nothing
 
 =head1 DEPENDENCIES
 
-nothing
+L<Carp|Carp>
 
 =head1 INCOMPATIBILITIES
 
@@ -100,7 +100,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2009,
+Copyright (c) 2007 - 2012,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

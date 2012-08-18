@@ -3,11 +3,11 @@ package Object::Lazy; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 use Carp qw(confess);
-use English qw(-no_match_vars $EVAL_ERROR);
-use Object::Lazy::Validate 0.08;
+use Try::Tiny;
+use Object::Lazy::Validate;
 
 sub new { ## no critic (ArgUnpacking)
     my ($class, $params) = Object::Lazy::Validate::validate_new(@_);
@@ -24,14 +24,17 @@ sub new { ## no critic (ArgUnpacking)
 my $build_object = sub {
     my ($self, $self_ref) = @_;
 
+    local *__ANON__ = 'BUILD_OBJECT'; ## no critic (LocalVars)
     my $built_object = $self->{build}->();
     # don't build a second time
     $self->{build} = sub { return $built_object };
     if ( ! $self->{is_built} && exists $self->{logger} ) {
-        () = eval {
+        try {
             confess('object built');
+        }
+        catch {
+            $self->{logger}->($_);
         };
-        $self->{logger}->($EVAL_ERROR);
     }
     $self->{is_built} = 1;
     ${$self_ref}      = $built_object;
@@ -120,6 +123,7 @@ sub VERSION { ## no critic (ArgUnpacking)
         }
     }
     my $built_object = $build_object->($self, \$_[0]);
+
     return $built_object->VERSION(@version);
 }
 
@@ -133,11 +137,11 @@ __END__
 
 =head1 NAME
 
-Object::Lazy - create objects late from non-owned classes
+Object::Lazy - create objects late from non-owned (foreign) classes
 
 =head1 VERSION
 
-0.11
+0.12
 
 =head1 SYNOPSIS
 
@@ -145,8 +149,8 @@ Object::Lazy - create objects late from non-owned classes
     use Object::Lazy;
 
     my $foo = Object::Lazy->new(
-        sub{
-            return Foo->new();
+        sub {
+            return Foo->new;
         },
     );
 
@@ -157,7 +161,7 @@ Object::Lazy - create objects late from non-owned classes
 
         if ($condition) {
             # a foo object will be created
-            print $foo->output();
+            print $foo->output;
         }
         else {
             # foo object is not created
@@ -168,16 +172,15 @@ Object::Lazy - create objects late from non-owned classes
 
 To combine this and a lazy use, write somthing like that:
 
-    use English qw(-no_match_vars $EVAL_ERROR);
     use Object::Lazy;
 
     my $foo = Object::Lazy->new(
         sub {
-            my $code = 'use Foo 123';
-            eval $code;
-            $EVAL_ERROR
-                and die "$code $EVAL_ERROR";
-            return Foo->new();
+            # 3 lines instead of "use Foo 123"
+            require Foo;
+            Foo->import;
+            Foo->VERSION('123');
+            return Foo->new;
         },
     );
 
@@ -185,7 +188,7 @@ To combine this and a lazy use, write somthing like that:
 
 After a build object the scalar which hold the object will be updated too.
 
-  $object->method();
+  $object->method;
   ^^^^^^^-------------- will update this scalar after a build
 
 Read topic SUBROUTINES/METHODS to find the entended constructor
@@ -369,7 +372,7 @@ the object will build.
 
 The given version will be returnd or checked.
 
-    $version = $object->VERSION();
+    $version = $object->VERSION;
 
 or
 
@@ -381,7 +384,7 @@ The version of the class in version_from will be returnd or checked.
 This class should be used or required before.
 Is that not possible use parameter VERSION instead.
 
-    $version = $object->VERSION();
+    $version = $object->VERSION;
 
 or
 
@@ -399,9 +402,9 @@ nothing
 
 =head1 DEPENDENCIES
 
-Carp
+L<Carp|Carp>
 
-English
+L<Try::Tiny|Try::Tiny>
 
 L<Object::Lazy::Validate|Object::Lazy::Validate>
 

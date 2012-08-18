@@ -43,8 +43,10 @@ __END__
 output:
 
 RealClass = ref $object;
-RealClass object built at ../lib/Object/Lazy.pm line 32
-    eval {...} called at ../lib/Object/Lazy.pm line 31
-    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 105
+RealClass object built at ../lib/Object/Lazy.pm line 33
+    Object::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
+    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
+    Try::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
+    Object::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 108
     Object::Lazy::can('Object::Lazy=HASH(...)', 'new') called at 06_ref.pl line 27
 CODE(...) = $object->can('new')

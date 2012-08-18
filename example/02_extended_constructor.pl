@@ -50,10 +50,15 @@ __END__
 
 output:
 
-1 = $object->isa('RealClass');
-1 = $object->isa('BaseClassOfRealClass');
-Data::Dumper object built at ../lib/Object/Lazy.pm line 32
-    eval {...} called at ../lib/Object/Lazy.pm line 31
-    Object::Lazy::__ANON__('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 47
-    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 38
-# Method output called!
+condition = 0
+object = Object::Lazy=HASH(...)
+Data::Dumper object built at ../lib/Object/Lazy.pm line 33
+    Object::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
+    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
+    Try::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
+    Object::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
+    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 29
+    main::do_something_with('Object::Lazy=HASH(...)', 1) called at 02_extended_constructor.pl line 45
+$my_dump = 'data';
+condition = 1
+object = Data::Dumper=HASH(...)
