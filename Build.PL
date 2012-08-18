@@ -10,9 +10,9 @@ Module::Build->new(
     dist_author       => 'Steffen Winkler <steffenw at cpan.org>',
     dist_version_from => 'lib/Object/Lazy.pm',
     requires          => {
-        perl      => '5.006',
-        Carp      => 0, # perl dist
-        Try::Tiny => 0, #perl dist
+        perl        => '5.006',
+        Carp        => 0, # perl dist
+        'Try::Tiny' => 0, #perl dist
     },
     build_requires => {
         'Test::NoWarnings'  => 0,
