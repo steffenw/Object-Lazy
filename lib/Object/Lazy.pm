@@ -3,7 +3,7 @@ package Object::Lazy; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 use Carp qw(confess);
 use Try::Tiny;
@@ -47,8 +47,8 @@ sub DESTROY {} # is not AUTOLOAD
 sub AUTOLOAD { ## no critic (Autoloading ArgUnpacking)
     my ($self, @params) =  @_;
 
-    my $built_object = $build_object->($self, \$_[0]);
     my $method = substr our $AUTOLOAD, 2 + length __PACKAGE__;
+    my $built_object = $build_object->($self, \$_[0]);
 
     return $built_object->$method(@params);
 }
@@ -141,7 +141,7 @@ Object::Lazy - create objects late from non-owned (foreign) classes
 
 =head1 VERSION
 
-0.12
+0.13
 
 =head1 SYNOPSIS
 
@@ -312,7 +312,7 @@ Optional notation of the logger code to show the build process.
         ...
         logger => sub {
             my $at_stack = shift;
-            print "RealClass at_stack";
+            print "RealClass $at_stack";
         },
     });
 

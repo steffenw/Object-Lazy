@@ -13,7 +13,7 @@ $TestSample::VERSION = '123';
 
 my $object = Object::Lazy->new(\&TestSample::create_object);
 is(
-    $object->VERSION(),
+    $object->VERSION,
     '123',
     'VERSION',
 );
@@ -33,5 +33,5 @@ sub new {
 
 # it's a sub, not a method
 sub create_object {
-    return TestSample->new();
+    return TestSample->new;
 }

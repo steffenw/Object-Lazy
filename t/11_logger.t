@@ -18,12 +18,13 @@ my $object = Object::Lazy->new({
 $object = Object::Lazy->new({
     build  => \&TestSample::create_object,
     logger => sub {
-        like shift(),
-        qr{\A\Qobject built at}xms,
-        'test log message',
+        like
+            +shift,
+            qr{\A\Qobject built at}xms,
+            'test log message',
     },
 });
-$object->method();
+$object->method;
 
 #-----------------------------------------------------------------------------
 
@@ -39,5 +40,5 @@ sub method {
 
 # it's a sub, not a method
 sub create_object {
-    return TestSample->new();
+    return TestSample->new;
 }

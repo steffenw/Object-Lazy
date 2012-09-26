@@ -1,4 +1,4 @@
-Object::Lazy version 0.12
+Object::Lazy version 0.13
 =========================
 
 Create objects late from non-owned classes.

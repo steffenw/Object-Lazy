@@ -19,7 +19,7 @@ sub my_sub {
         'ref object in sub is Object::Lazy',
     );
     is(
-        $object->method(),
+        $object->method,
         'method output',
         'check method output',
     );
@@ -34,7 +34,7 @@ is(
     'Object::Lazy',
     'ref object is Object::Lazy',
 );
-$object->method(),
+$object->method,
 is(
     ref $object,
     'TestSample',
@@ -55,5 +55,5 @@ sub method {
 
 # it's a sub, not a method
 sub create_object {
-    return TestSample->new();
+    return TestSample->new;
 }

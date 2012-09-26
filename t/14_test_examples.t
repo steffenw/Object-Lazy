@@ -37,7 +37,7 @@ Data::Dumper object built at ../lib/Object/Lazy.pm line 33
 \tObject::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
 \teval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
 \tTry::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
-\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
+\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 51
 \tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 02_extended_constructor.pl line 29
 \tmain::do_something_with('Object::Lazy=HASH(...)', 1) called at 02_extended_constructor.pl line 45
 $my_dump = 'data';
@@ -56,7 +56,7 @@ RealClass object built at ../lib/Object/Lazy.pm line 33
 \tObject::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
 \teval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
 \tTry::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
-\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
+\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 51
 \tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 03_isa.pl line 38
 # Method output called!
 EOT
@@ -72,7 +72,7 @@ RealClass object built at ../lib/Object/Lazy.pm line 33
 \tObject::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
 \teval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
 \tTry::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
-\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
+\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 51
 \tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 04_DOES.pl line 39
 # Method output called!
 EOT
@@ -88,13 +88,13 @@ Real object 1 object built at ../lib/Object/Lazy.pm line 33
 \tObject::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
 \teval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
 \tTry::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
-\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
+\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 51
 \tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 50
 Real object 2 object built at ../lib/Object/Lazy.pm line 33
 \tObject::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
 \teval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
 \tTry::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
-\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
+\tObject::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 51
 \tObject::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 05_VERSION.pl line 51
 EOT
     },
@@ -117,7 +117,7 @@ EOT
 
 for my $data (@data) {
     # run example
-    my $dir = getcwd();
+    my $dir = getcwd;
     chdir("$dir/$data->{path}");
     my $result = qx{perl $data->{script} 2>&3};
     chdir($dir);

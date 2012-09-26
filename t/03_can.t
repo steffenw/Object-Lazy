@@ -34,5 +34,5 @@ sub method {
 
 # it's a sub, not a method
 sub create_object {
-    return TestSample->new();
+    return TestSample->new;
 }

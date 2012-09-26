@@ -18,7 +18,7 @@ BEGIN { use_ok('Object::Lazy') }
         VERSION => qv('1.2.3'),
     });
     is(
-        $object->VERSION(),
+        $object->VERSION,
         qv('1.2.3'),
         'VERSION',
     );
@@ -38,7 +38,7 @@ BEGIN { use_ok('Object::Lazy') }
         version_from => 'TestSample',
     });
     is(
-        $object->VERSION(),
+        $object->VERSION,
         '123',
         'version_from',
     );
@@ -60,5 +60,5 @@ sub new {
 
 # it's a sub, not a method
 sub create_object {
-    return TestSample->new();
+    return TestSample->new;
 }
