@@ -1,5 +1,8 @@
 Revision history for Perl extension Object::Lazy.
 
+0.14  Sat Aug 31 15:44:11 2013
+- https://rt.cpan.org/Public/Bug/Display.html?id=87867
+
 0.13  Wed Sep 26 06:29:56 2012
 - https://rt.cpan.org/Ticket/Display.html?id=79720
 

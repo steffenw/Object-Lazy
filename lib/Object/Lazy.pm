@@ -3,7 +3,7 @@ package Object::Lazy; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 use Carp qw(confess);
 use Try::Tiny;
@@ -28,16 +28,18 @@ my $build_object = sub {
     my $built_object = $self->{build}->();
     # don't build a second time
     $self->{build} = sub { return $built_object };
-    if ( ! $self->{is_built} && exists $self->{logger} ) {
-        try {
-            confess('object built');
+    if ( ! $self->{is_built} ) {
+        $self->{is_built} = 1;
+        if ( exists $self->{logger} ) {
+            try {
+                confess('object built');
+            }
+            catch {
+                $self->{logger}->($_);
+            };
         }
-        catch {
-            $self->{logger}->($_);
-        };
     }
-    $self->{is_built} = 1;
-    ${$self_ref}      = $built_object;
+    ${$self_ref} = $built_object;
 
     return $built_object;
 };
@@ -141,7 +143,7 @@ Object::Lazy - create objects late from non-owned (foreign) classes
 
 =head1 VERSION
 
-0.13
+0.14
 
 =head1 SYNOPSIS
 
@@ -441,7 +443,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2012,
+Copyright (c) 2007 - 2013,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.
