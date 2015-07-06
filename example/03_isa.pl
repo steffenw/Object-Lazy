@@ -10,7 +10,7 @@ use Object::Lazy;
 my $object = Object::Lazy->new({
     # how to create the real object
     build  => sub {
-        return RealClass->new();
+        return RealClass->new;
     },
     # do not build at method isa
     # isa => 'RealClass',
@@ -35,7 +35,7 @@ my $object = Object::Lazy->new({
 }
 
 # build the real object and call method output
-$object->output();
+$object->output;
 
 # $Id$
 
@@ -62,10 +62,10 @@ output:
 
 1 = $object->isa('RealClass');
 1 = $object->isa('BaseClassOfRealClass');
-RealClass object built at ../lib/Object/Lazy.pm line 33
-    Object::Lazy::BUILD_OBJECT() called at D:/Perl/site/lib/Try/Tiny.pm line 76
-    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 67
-    Try::Tiny::try('CODE(...)', 'Try::Tiny::Catch=REF(...)') called at ../lib/Object/Lazy.pm line 37
-    Object::Lazy::BUILD_OBJECT('Object::Lazy=HASH(...)', 'REF(...)') called at ../lib/Object/Lazy.pm line 50
-    Object::Lazy::AUTOLOAD('Object::Lazy=HASH(...)') called at 03_isa.pl line 38
+RealClass object built at ../lib/Object/Lazy.pm line 35.
+    Object::Lazy::try {...} () called at D:/Perl/site/lib/Try/Tiny.pm line 81
+    eval {...} called at D:/Perl/site/lib/Try/Tiny.pm line 72
+    Try::Tiny::try(CODE(...), Try::Tiny::Catch=REF(...)) called at ../lib/Object/Lazy.pm line 39
+    Object::Lazy::BUILD_OBJECT(RealClass=HASH(...), REF(...)) called at ../lib/Object/Lazy.pm line 53
+    Object::Lazy::AUTOLOAD(RealClass=HASH(...)) called at 03_isa.pl line 38
 # Method output called!

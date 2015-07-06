@@ -20,7 +20,7 @@ sub do_something_with {
 
     if ($condition) {
         # the Data::Dumper object will be created
-        () = print $object->Dump();
+        () = print $object->Dump;
     }
     else {
         # the Data::Dumper object is not created

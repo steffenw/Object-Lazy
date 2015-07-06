@@ -3,7 +3,7 @@ package Object::Lazy; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 use Carp qw(confess);
 use Try::Tiny;
@@ -143,7 +143,7 @@ Object::Lazy - create objects late from non-owned (foreign) classes
 
 =head1 VERSION
 
-0.14
+0.15
 
 =head1 SYNOPSIS
 
@@ -243,8 +243,8 @@ There are 3 ways to check the class or inheritance.
 
 If there is no parameter isa, the object must be built before.
 
-If the C<use RealClass;> is outside of C<build => sub {...}>
-then the class method C<RealClass->isa(...);> checks the class or inheritance.
+If the C<use RealClass;> is outside of C<<build => sub {...}>>
+then the class method C<<RealClass->isa(...);>> checks the class or inheritance.
 
 Otherwise the isa parameter is a full notation of the class
 and possible of the inheritance.
@@ -344,11 +344,11 @@ If no isa parameter was given at method new, the object will build.
 Otherwise the method isa checks by isa class method
 or only the given parameters.
 
-    $boolean = $obejct->isa('RealClass');
+    $boolean = $object->isa('RealClass');
 
 or
 
-    $boolean = $obejct->isa('BaseClassOfRealClass');
+    $boolean = $object->isa('BaseClassOfRealClass');
 
 =head2 method DOES
 
@@ -357,7 +357,7 @@ If no isa or DOES parameter was given at method new, the object will build.
 Otherwise the method DOES checks by DOES class method
 or only the given parameters isa and DOES.
 
-    $boolean = $obejct->DOES('Role');
+    $boolean = $object->DOES('Role');
 
 =head2 method can
 
@@ -443,7 +443,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2007 - 2013,
+Copyright (c) 2007 - 2015,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.
